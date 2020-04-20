@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static('public')); 
 app.use(cookieParser('Heisenberg'));
+app.use(middlewares.authCookie);
 
 app.set('view engine', 'ejs');
 app.set('views', "./views");
@@ -26,12 +27,16 @@ app.use('/', authentication);
 app.use('/', post);
 
 
-app.get('/', middlewares.authCookie, (req, res, next) => {
+app.get('/', (req, res, next) => {
     res.render('index', myInfo = res.locals.userObj);
 })
 
 app.get('/apitest', (req, res) => {
     res.send({hello: 'world', test: 'thanh cong', success: true});
+})
+
+app.get('/requestTest', (req, res) => {
+    console.log(req.originalUrl.slice(1, req.originalUrl.length));
 })
 
 app.listen(3000, ()=>console.log("Khoi tao server thanh cong"));
