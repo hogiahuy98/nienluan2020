@@ -1,0 +1,37 @@
+const express = require('express');
+const app     = express();
+const bodyParser = require("body-parser");
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session);
+const registration = require('./routes/registration.route');
+const authentication = require('./routes/authentication.route');
+const post = require('./routes/post.route');
+const cookieParser = require('cookie-parser'); 
+const middlewares = require('./middlewares/authentication.middlewares');
+// app.use(session({
+//     store: new MongoStore({ url: "mongodb://localhost:27017/moment" })
+// }));
+
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+app.use(express.static('public')); 
+app.use(cookieParser('Heisenberg'));
+
+app.set('view engine', 'ejs');
+app.set('views', "./views");
+
+// app.use(middlewares.checkCookie);
+app.use('/', registration);
+app.use('/', authentication);
+app.use('/', post);
+
+
+app.get('/', middlewares.authCookie, (req, res, next) => {
+    res.render('index', myInfo = res.locals.userObj);
+})
+
+app.get('/apitest', (req, res) => {
+    res.send({hello: 'world', test: 'thanh cong', success: true});
+})
+
+app.listen(3000, ()=>console.log("Khoi tao server thanh cong"));

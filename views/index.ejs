@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .small-avatar{
+            width: 50px;
+            height: 50px;
+        }
+        body{
+            padding-top: 5rem;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+        <%- include('./partials/header') %> 
+        <div class="container">
+        <div  class="row">
+            <div  class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12 py-3">
+                <h4 data-type="header" class="mt-15">Thêm ảnh mới</h4>
+                <div  class="card mb-3"> <!-- Khung đăng ảnh -->
+                    <div  class="card-body">
+                        <!-- Form -->
+                        <form action="/post" method="POST" id='postCard' enctype="multipart/form-data">
+                            <div  class="form-group"><textarea form="postCard" name="caption"  data-toggle="autosize" rows="3" placeholder="Start a post..." class="form-control form-control-flush form-control-auto c5490"></textarea></div>
+
+                        <div  class="row align-items-center">
+                            <div  class="col">
+                                <!-- Symbols --><small class="text-muted"> 0/500 </small></div>
+                            <div  class="col-auto">
+                                <!-- Icons -->
+                              <input class="mr-0" type="file" name="img" id="img">
+                              <button class="btn btn-inline-light col-2 my-md-0" type="submit">Đăng</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card my3 feed"> <!-- a feed -->
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <a href="#" class="avatar">
+                                    <img src="/img/avatar2.jpg" class="avatar-img rounded-circle small-avatar">
+                                </a>
+                            </div>
+                            <div  class="col ml-n2">
+                                <!-- Title -->
+                                <h4 class="card-title mb-1"> Heisenberg</h4><!-- Time -->
+                                <p class="card-text small text-muted"><time datetime="2018-05-24">4hr ago</time><span  class="fe fe-clock"></span> </p>
+                            </div>
+                        </div>
+                        <p class="mt-2">Say my name Heisenberg</p>
+                        <div><img src="/img/post/smeb2.jpg" alt="" class="img-fluid rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="jquery/jquery.min.js"></script>
+    <script>
+    </script>
+</body>
+</html>
