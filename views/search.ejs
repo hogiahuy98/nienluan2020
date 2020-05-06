@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%- include('./partials/head') %> 
+</head>
+<body>
+    <%- include('./partials/navbar') %> 
+    <div class="container">
+        <div class="col-6" style="margin: 60px;">
+            <table class="table ">
+                <tbody>
+                    <% list.forEach( function (user) { %> 
+                    <tr>
+                        <td>
+                            <img src="<%= user.avatar %> " width='40rem' height="40rem">
+                        </td>
+                        <td>
+                            <p><%= user.username %> </p>
+                        </td>
+                        <% if (user.followed == true){ %> 
+                            <td><button class="btn btn-outline-danger unfollow-button"id="<%= user._id %>"> Unfollow</button></td>
+                        <% } else {%> 
+                        <td><button class="btn btn-outline-primary follow-button" id="<%= user._id %>">Follow</button></td>
+                        <% } %> 
+                    </tr> 
+                    <% }) %> 
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <% if(paging.previousPage){ %>
+                        <li class="page-item"><a class="page-link float-left" href="<%= paging.previousPage %> ">Previous</a></li>
+                    <% } %>
+                    <% if (paging.nextPage){ %>
+                        <li class="page-item"><a class="page-link float-left" href="<%= paging.nextPage %> ">Next</a></li>
+                    <% } %>     
+                </ul>
+              </nav>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+        $(document).on('click','.follow-button',function () {
+            $.ajax({
+                url: '/follow/'+ $(this).attr('id'),
+                method : "POST",
+                context: this,
+                success: function(data){
+                    if(data == "Thất bại"){
+                        return alert(data);
+                    }
+                    $(this).removeClass("btn-outline-primary follow-button");
+                    $(this).addClass("btn-outline-danger unfollow-button");
+                    $(this).html("Unfollow");
+                }
+            });
+
+        });
+
+        $(document).on('click','.unfollow-button',function () {
+            $.ajax({
+                url: '/unfollow/'+ $(this).attr('id'),
+                method : "POST",
+                context: this,
+                success: function(data){
+                    $(this).removeClass("btn-outline-danger unfollow-button");
+                    $(this).addClass("btn-outline-primary follow-button");
+                    $(this).html("Follow");
+                }
+            });
+
+        });
+
+</script>
+</html>

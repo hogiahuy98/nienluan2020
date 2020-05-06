@@ -16,7 +16,7 @@
     <title>Document</title>
 </head>
 <body>
-        <%- include('./partials/header') %> 
+        <%- include('./partials/navbar') %> 
         <div class="container">
         <div  class="row">
             <div  class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12 py-3">
@@ -29,7 +29,8 @@
 
                         <div  class="row align-items-center">
                             <div  class="col">
-                                <!-- Symbols --><small class="text-muted"> 0/500 </small></div>
+                                <!-- Symbols --><small class="text-muted"> </small>
+                            </div>
                             <div  class="col-auto">
                                 <!-- Icons -->
                               <input class="mr-0" type="file" name="img" id="img">
@@ -39,24 +40,34 @@
                         </form>
                     </div>
                 </div>
-                <div class="card my3 feed"> <!-- a feed -->
-                    <div class="card-body">
+                <% if(posts.length == 0) {%>
+                    <p>Hãy follow mọi người để xem bài đăng</p> 
+                <% } %>
+                <% posts.forEach( function(post) { %>
+                    <div class="card my-3 feed"> <!-- a feed --> 
+                        <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
                                 <a href="#" class="avatar">
-                                    <img src="/img/avatar2.jpg" class="avatar-img rounded-circle small-avatar">
+                                    <img src="<%= post.ownerInfo.avatar %>" class="avatar-img rounded-circle small-avatar">
                                 </a>
                             </div>
                             <div  class="col ml-n2">
                                 <!-- Title -->
-                                <h4 class="card-title mb-1"> Heisenberg</h4><!-- Time -->
-                                <p class="card-text small text-muted"><time datetime="2018-05-24">4hr ago</time><span  class="fe fe-clock"></span> </p>
+                                <a class="text-dark" href="#">
+                                    <h4 class="card-title mb-1"><%= post.ownerInfo.username %></h4>
+                                </a>
+                                <p class="card-text small text-muted"><time datetime="2018-05-24"><%= post.time %></time><span  class="fe fe-clock"></span> </p>
                             </div>
                         </div>
-                        <p class="mt-2">Say my name Heisenberg</p>
-                        <div><img src="/img/post/smeb2.jpg" alt="" class="img-fluid rounded"></div>
+                        <p class="mt-2 ml-3 "><%= post.caption %></p>
+                        <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid rounded"></div>
+                        <div class="border-top my-1 ml-3">
+                            <a href="#" class="mr-4">Thích</a> <a href="/post/<%= post.id %>" target="blank"> Xem bình luận</a>
+                        </div>
                     </div>
                 </div>
+                <% }) %> 
             </div>
         </div>
     </div>

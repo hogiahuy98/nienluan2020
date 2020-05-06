@@ -6,6 +6,8 @@ const MongoStore = require('connect-mongo')(session);
 const registration = require('./routes/registration.route');
 const authentication = require('./routes/authentication.route');
 const post = require('./routes/post.route');
+const main = require('./routes/main.route');
+const userAPIRoute = require('./API/user.api'); 
 const cookieParser = require('cookie-parser'); 
 const middlewares = require('./middlewares/authentication.middlewares');
 // app.use(session({
@@ -25,11 +27,9 @@ app.set('views', "./views");
 app.use('/', registration);
 app.use('/', authentication);
 app.use('/', post);
+app.use('/', main);
 
-
-app.get('/', (req, res, next) => {
-    res.render('index', myInfo = res.locals.userObj);
-})
+//Use API
 
 app.get('/apitest', (req, res) => {
     res.send({hello: 'world', test: 'thanh cong', success: true});

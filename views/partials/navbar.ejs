@@ -1,0 +1,59 @@
+<div class="container fixed-top" style="position: fixed;">
+  <nav class="navbar navbar-expand-md bg-white border-bottom mb-4">
+    <!-- logo -->
+    <div class="col-md-4">
+      <a href="/"><img src="/img/logo.png" alt="logo" height="40rem"></a>
+    </div>
+    <!-- logo -->
+    <!-- search form -->
+    <div class="col-md-4">
+      <form class="from-inline my-2 my-lg-0 d-flex  " method="GET" action="/search/1  ">
+        <input class="form-control mr-md-2" type="search" placeholder="Tìm kiếm" name="key" aria-label="Search">
+        <button class="btn btn-inline-light my-2 my-md-0" type="submit">Tìm kiếm</button>
+      </form>
+    </div>  
+    <!-- search form -->
+    <!-- dropdown -->
+    <div class="col-md-4">
+      <ul class="navbar-nav float-right ">
+        <li class="nav-item"><% if(myInfo){ %> 
+          <div class="dropdown">
+            <a href='#' class="dropdown-toggle" id='dropdown-avatar' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="<%= myInfo.avatar %>" class="rounded-circle" id='avatar' height="40rem" width="40rem">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdown-avatar">
+              <a class="dropdown-item" data-toggle="modal" data-target="#change-avatar">Đổi ảnh đại diện</a>
+              <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+              <a class="dropdown-item" href="/signout">Đăng xuất</a>
+            </div>
+          </div>
+        <% } %> 
+        </li>
+      </ul>
+    </div>
+    <!-- dropdown -->
+  </nav>
+</div>
+<!-- modal -->
+<div class="modal fade" id="change-avatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Chọn ảnh đại diện</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/avatar/" method="post" enctype="multipart/form-data">
+          <input class="form-control" type="file" name="img" id="">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit"  class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- model -->

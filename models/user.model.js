@@ -7,8 +7,6 @@ var userSchema = mongoose.Schema({
     name:     String,
     email:    String,
     avatar:   String,
-    following:[],
-    followed: []
 });
 
 var user = mongoose.model("User", userSchema);

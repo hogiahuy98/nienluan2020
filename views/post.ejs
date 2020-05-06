@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .small-avatar{
+            width: 50px;
+            height: 50px;
+        }
+        body{
+            padding-top: 5rem;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+        <%- include('./partials/navbar') %> 
+        <div class="container">
+        <div  class="row">
+                    <div class="card my-3 feed"> <!-- a feed --> 
+                        <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <a href="#" class="avatar">
+                                    <img src="<%= post.ownerInfo.avatar %>" class="avatar-img rounded-circle small-avatar">
+                                </a>
+                            </div>
+                            <div  class="col ml-n2">
+                                <!-- Title -->
+                                <a class="text-dark" href="#">
+                                    <h4 class="card-title mb-1"><%= post.ownerInfo.username %></h4>
+                                </a>
+                                <p class="card-text small text-muted"><time datetime="2018-05-24"><%= post.time %></time><span  class="fe fe-clock"></span> </p>
+                            </div>
+                        </div>
+                        <p class="mt-2 ml-3 "><%= post.caption %></p>
+                        <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid rounded"></div>
+                        <div class="border-top my-1 ml-3">
+                            <a href="#" class="mr-4">Thích</a> <a href="#">Xem bình luận</a>
+                        </div>
+                        <form action="/comment/<%= post._id %>">
+                            <div class="d-flex my-2 mx-3">
+                                <input class="form-control" type="text" name="content" id="" placeholder="Nhập bình luận">
+                                <button class="btn btn-primary ml-5">Bình luận</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="jquery/jquery.min.js"></script>
+    <script>
+    </script>
+</body>
+</html>
