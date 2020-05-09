@@ -29,7 +29,7 @@ module.exports.signup = async (req, res) => {
         res.redirect('/login');
 }
 
-module.exports.signOut = (req, res) => {
+module.exports.signout = (req, res) => {
     if(!req.signedCookies.userID)
         return res.redirect('/');
     else{
@@ -47,15 +47,13 @@ module.exports.validateLogin = async (req, res) => {
         if (user){
             var comp = await bcrypt.compare(req.body.password, user.password);
             if (comp){
-                var myInfo = user;
                 res.cookie('userID', user._id, {signed: true});
                 return res.redirect('/');
             }
             else
                 return res.render('login', {err: true});
         }
-        else 
-            return res.render('login', {err: true});
+        return res.render('login', {err: true});
 }
 
 module.exports.search = async (req, res) => {
@@ -66,13 +64,17 @@ module.exports.search = async (req, res) => {
                     ]},
                     {_id:1,username:1, name:1, avatar:1})
                     .limit(10).skip(10* (req.params.page - 1));
-            if(list.length == 0) return res.send("Không tìm thấy người dùng nào");
+            if (list.length == 0)
+                return res.send("Không tìm thấy người dùng nào");
+
             var localUser = req.signedCookies.userID;
             var data = [];
             for (var i = 0; i < list.length; i++){
                 var followed = await Follow.findOne({follower: localUser, followee: list[i]._id});
-                if(followed != null) followed = true;
-                else         followed = false;
+                if (followed != null)
+                    followed = true;
+                else
+                    followed = false;
                 data.push({
                     username: list[i].username,
                     followed : followed,
@@ -80,15 +82,14 @@ module.exports.search = async (req, res) => {
                     _id : list[i]._id
                 })
             }
+
             var nextPage, previousPage;
-            
             if (Number(req.params.page) == 1)
                 previousPage = false;
             else previousPage = "/search/" + (Number(req.params.page) - 1) + "/?key=" + req.query.key;
 
-            if(data.length < 10){
+            if (data.length < 10)
                 nextPage = false;
-            }
             else nextPage = "/search/" + (Number(req.params.page) + 1) + "/?key=" + req.query.key;
 
             var paging = {
@@ -111,19 +112,19 @@ module.exports.follow = async (req, res) => {
     }
     var find = await Follow.findOne({follower: userID, followee: followee})
     if (find) return res.send("Thất bại");
-    var action = await Follow.create(data);
+    await Follow.create(data);
     res.send("Thành công");
 }
 
 module.exports.unfollow = async (req, res) =>{
     var userID = req.signedCookies.userID;
     var followee = req.params.id; 
-    var find = await Follow.findOne({follower: userID, followee: followee}).remove();
+    await Follow.findOne({follower: userID, followee: followee}).remove();
     res.send("Thành công");
 }
 
 module.exports.changeAvatar = async (req, res) => {
-    var avatar = '/uploads/avatars/' + path.basename(req.file.path)
+    var avatar = '/uploads/avatars/' + path.basename(req.file.path);
     var update = await User.findOneAndUpdate({_id: req.signedCookies.userID}, {$set: {avatar}});
     console.log(update);
 }
@@ -131,4 +132,26 @@ module.exports.changeAvatar = async (req, res) => {
 module.exports.getUserFD = async (userID) => {
     var result = await User.findOne({ _id: userID });
     return result;
+}
+
+module.exports.changePassword = async (req, res) => {
+    var realOldPass = await User.findOne({_id : req.signedCookies.userID}, {password:1});
+    var compare = await bcrypt.compare(req.body.oldpass, realOldPass.password);
+    var err;
+    if (!compare)
+        err = "Mật khẩu cũ chưa đúng";
+    if (!err){
+        realOldPass.password = await bcrypt.hash(req.body.newpass, 5);
+        await realOldPass.save();
+        res.send({
+            success: true,
+            err: false
+        })
+    }
+    else{
+        res.send({
+            success: false,
+            err: err
+        })
+    }
 }

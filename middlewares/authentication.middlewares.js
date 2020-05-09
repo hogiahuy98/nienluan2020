@@ -8,7 +8,7 @@ module.exports.authCookie = async (req, res, next) => {
         return res.redirect('/login');
     }
     
-    var user = await User.findOne( {_id: req.signedCookies.userID} );
+    var user = await User.findOne( {_id: req.signedCookies.userID} , {_id:1, username: 1, avatar: 1});
     if (!user && thisUrl != "login")
         return res.redirect('/login');
     else

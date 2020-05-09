@@ -19,40 +19,106 @@
         <%- include('./partials/navbar') %> 
         <div class="container">
         <div  class="row">
+                <div class="col-8">
                     <div class="card my-3 feed"> <!-- a feed --> 
                         <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <a href="#" class="avatar">
-                                    <img src="<%= post.ownerInfo.avatar %>" class="avatar-img rounded-circle small-avatar">
-                                </a>
+                        <!-- Header cua post (avatar, username, menu) -->
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <a href="#" class="avatar">
+                                        <img src="<%= post.ownerInfo.avatar %>" class="avatar-img rounded-circle small-avatar">
+                                    </a>
+                                </div>
+                                <div class="col ml-n2">
+                                    <a class="text-dark" href="#">
+                                        <h4 class="card-title mb-1"><%= post.ownerInfo.username %></h4>
+                                    </a>
+                                </div>
+                            </div> 
+                        <!-- Header cua post (avatar, username, menu) -->
+                        <!-- Content cua post (anh va cap tion) -->
+                            <div class="row">
+                                <p class="mt-2 ml-3 "><%= post.caption %></p>
+                                <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid rounded"></div>
                             </div>
-                            <div  class="col ml-n2">
-                                <!-- Title -->
-                                <a class="text-dark" href="#">
-                                    <h4 class="card-title mb-1"><%= post.ownerInfo.username %></h4>
-                                </a>
-                                <p class="card-text small text-muted"><time datetime="2018-05-24"><%= post.time %></time><span  class="fe fe-clock"></span> </p>
+                        <!-- Content cua post (anh va cap tion) -->
+                        <!-- Cac nut control     -->
+                            <div class="row">
+                                <div class="border-top my-1 ml-3">
+                                    <% if(!post.like){ %> 
+                                        <button id="<%= post.id %>" class="mr-4 like">Thích<span class="badge badge-dark"><%= post.likeCount %> </span></button>
+                                    <% } else { %>
+                                        <button id="<%= post.id %>" class=" mr-4 unlike">Bỏ thích<span class="badge badge-dark"><%= post.likeCount %> </button>
+                                    <% } %>  
+                                </div>
                             </div>
+                        <!-- Cac nut control     -->
+                            <div class="row">
+                                <% post.comments.forEach( comment => {%>
+                                    <div class="col-10 ml-3 pt-1 comment">
+                                        <a href="/user/<%= comment.ownerInfo._id %> " class="text-dark bold">
+                                            <strong><%= comment.ownerInfo.username %></strong>
+                                        </a>
+                                        <span><%= comment.content %> </span>
+                                    </div>
+                                <% }) %>  
+                                <div class="col-10 ml-3 pt-1 comment">
+                                    <a href="#" class="text-dark bold"><strong>hogiahuy98</strong></a>
+                                    <span>Ngon vl</span>
+                                </div>
+                                <div class="col-10 ml-3 pt-1 comment">
+                                    <a href="#" class="text-dark bold"><strong>hogiahuy98</strong></a>
+                                    <span>Ngon vl</span>
+                                </div>
+                            </div>
+                            <form action="/comment/<%= post.id %>" method="POST">
+                                <div class="d-flex my-2 mx-3">
+                                    <input class="form-control" type="text" name="content" id="" placeholder="Nhập bình luận" autocomplete="off">
+                                    <button type="submit" class="btn btn-primary ml-5">Bình luận</button>
+                                </div>
+                            </form>
                         </div>
-                        <p class="mt-2 ml-3 "><%= post.caption %></p>
-                        <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid rounded"></div>
-                        <div class="border-top my-1 ml-3">
-                            <a href="#" class="mr-4">Thích</a> <a href="#">Xem bình luận</a>
-                        </div>
-                        <form action="/comment/<%= post._id %>">
-                            <div class="d-flex my-2 mx-3">
-                                <input class="form-control" type="text" name="content" id="" placeholder="Nhập bình luận">
-                                <button class="btn btn-primary ml-5">Bình luận</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="jquery/jquery.min.js"></script>
     <script>
+            $(document).on('click', '.like', function() {
+                $.ajax({
+                    url:    "/like/"+ $(this).attr('id'),
+                    method: "post",
+                    context: this,
+                    success: function(data){
+                        if(data.success){
+                            $(this).html(`Bỏ thích <span class="badge badge-dark"> ${data.likeCount}<span>`);
+                            $(this).removeClass("like");
+                            $(this).addClass('unlike');
+                        }
+                        else{
+                            alert(data);
+                        }
+                    }
+                });
+            });
+            
+            $(document).on('click', '.unlike', function(){
+                $.ajax({
+                    url:    `/unlike/${$(this).attr('id')}`,
+                    method: "post",
+                    context: this,
+                    success: function(data){
+                        if(data.success){
+                            $(this).html(`Thích <span class="badge badge-dark"> ${data.likeCount}<span>`);
+                            $(this).removeClass("unlike");
+                            $(this).addClass('like');
+                        }
+                        else{
+                            alert(data);
+                        }
+                    }
+                });
+            });
     </script>
 </body>
 </html>

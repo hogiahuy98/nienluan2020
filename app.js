@@ -7,6 +7,7 @@ const registration = require('./routes/registration.route');
 const authentication = require('./routes/authentication.route');
 const post = require('./routes/post.route');
 const main = require('./routes/main.route');
+const comment = require('./routes/comment.route');
 const userAPIRoute = require('./API/user.api'); 
 const cookieParser = require('cookie-parser'); 
 const middlewares = require('./middlewares/authentication.middlewares');
@@ -28,7 +29,7 @@ app.use('/', registration);
 app.use('/', authentication);
 app.use('/', post);
 app.use('/', main);
-
+app.use('/', comment);
 //Use API
 
 app.get('/apitest', (req, res) => {

@@ -25,5 +25,9 @@ router.get('/', mainController.index);
 router.post('/follow/:id',userController.follow);
 router.post('/unfollow/:id',userController.unfollow);
 router.post('/avatar',upload.single('img'), userController.changeAvatar);
+router.post('/like/:postID', mainController.like);
+router.post('/unlike/:postID', mainController.unlike);
+
+router.post('/changepassword/', userController.changePassword);
 
 module.exports = router;

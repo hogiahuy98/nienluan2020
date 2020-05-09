@@ -23,7 +23,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdown-avatar">
               <a class="dropdown-item" data-toggle="modal" data-target="#change-avatar">Đổi ảnh đại diện</a>
-              <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+              <a class="dropdown-item" data-toggle="modal" data-target="#change-password">Đổi mật khẩu</a>
               <a class="dropdown-item" href="/signout">Đăng xuất</a>
             </div>
           </div>
@@ -38,6 +38,7 @@
 <div class="modal fade" id="change-avatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <form action="/avatar/" method="post" enctype="multipart/form-data">
       <div class="modal-header">
         <h5 class="modal-title" id="">Chọn ảnh đại diện</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -45,14 +46,39 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/avatar/" method="post" enctype="multipart/form-data">
           <input class="form-control" type="file" name="img" id="">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit"  class="btn btn-primary">Save changes</button>
-        </form>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit"  class="btn btn-primary">Save changes</button>
       </div>
+    </form>
+    </div>
+  </div>
+
+
+
+  
+</div><div class="modal fade" id="change-password" tabindex="-1" role="dialog" aria-labelledby="change-password" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="post" id = "change-password-form">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Đổi mật khẩu</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>•
+      <div class="modal-body">
+          <input class="form-control my-1 py-2" type="password" name="oldpass" id="old-pass" placeholder="Mật khẩu cũ">
+          <input class="form-control my-1 py-2" type="password" name="newpass" id="new-pass" placeholder="Mật khẩu mới">
+          <input class="form-control my-1 py-2" type="password" name="renewpass" id="re-new-pass" placeholder="Nhập lại mật khẩu mới">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit"  class="btn btn-primary">Đổi mật khẩu</button>
+      </div>
+    </form>
     </div>
   </div>
 </div>
