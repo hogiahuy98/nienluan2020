@@ -68,11 +68,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>•
-      <div class="modal-body">
-          <input class="form-control my-1 py-2" type="password" name="oldpass" id="old-pass" placeholder="Mật khẩu cũ">
-          <input class="form-control my-1 py-2" type="password" name="newpass" id="new-pass" placeholder="Mật khẩu mới">
-          <input class="form-control my-1 py-2" type="password" name="renewpass" id="re-new-pass" placeholder="Nhập lại mật khẩu mới">
+      </div>
+      <div class="modal-body col-8 mx-auto">
+          <input class="form-control my-1 my-4" type="password" name="oldpass" id="old-pass" placeholder="Mật khẩu cũ">
+          <input class="form-control my-1 my-4" type="password" name="newpass" id="new-pass" placeholder="Mật khẩu mới">
+          <input class="form-control my-1 my-4" type="password" name="renewpass" id="re-new-pass" placeholder="Nhập lại mật khẩu mới">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -81,5 +81,50 @@
     </form>
     </div>
   </div>
+</div>
+
+</div>
+
+
+<div class="modal fade" id="update-post" tabindex="-1" role="dialog" aria-labelledby="update-post" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="post" id ="update-form" data-hi="">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Chỉnh sửa bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body col-10 mx-auto">
+        <div  class="form-group"><textarea id="update-area" form="update-form" name="caption"  data-toggle="autosize" rows="3"class="form-control form-control-flush form-control-auto c5490"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit"  class="btn btn-primary">Chỉnh sửa</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete-post" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
+  <div class="modal-dialog bg-white" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Xóa bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body col-10 mx-auto">
+        <p class="h4">Bạn có chắn muốn xóa post?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button class="btn btn-primary delete-post-submit" data-hi="">Xóa</button>
+      </div>
+    </div>
+    </div>
 </div>
 <!-- model -->

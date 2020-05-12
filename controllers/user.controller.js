@@ -122,6 +122,12 @@ module.exports.unfollow = async (req, res) =>{
     await Follow.findOne({follower: userID, followee: followee}).remove();
     res.send("Thành công");
 }
+module.exports.unfollowByUsername = async (req, res) =>{
+    var userID = req.signedCookies.userID;
+    var find = await User.findOne({username: req.params.username}, {_id:1});
+    await Follow.findOne({follower: userID, followee: find._id}).remove();
+    res.send({success: true});
+}
 
 module.exports.changeAvatar = async (req, res) => {
     var avatar = '/uploads/avatars/' + path.basename(req.file.path);

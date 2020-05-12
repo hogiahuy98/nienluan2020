@@ -17,7 +17,8 @@ router.post('/comment/:postID', async (req, res) => {
         user: res.locals.userObj,
         comment: {
             id: comment._id,
-            content: comment.content
+            content: comment.content,
+            date: comment.date
         }
     }
     res.send(dataToSend);

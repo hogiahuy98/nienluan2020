@@ -2,16 +2,19 @@ const Post = require('../models/post.model');
 const Follow = require('../models/follow.model');
 const Comment = require('../models/comment.model');
 const path = require('path');
-const User = require('../models/user.model')
+const User = require('../models/user.model');
+const fs = require('fs');
+const { promisify } = require('util');
+const deleteFile = promisify(fs.unlink);
 
 module.exports.upload = async (req, res) => {
     if(!req.file) return res.send('chua chon file');
 
     var postOjb = {
-        owner: req.signedCookies.userID,
+        owner   : req.signedCookies.userID,
         caption : req.body.caption,
         postDate: Date.now(),
-        imgUrl: '/uploads/' + path.basename(req.file.path)         
+        imgUrl  : '/uploads/' + path.basename(req.file.path)         
     }
     var posting = await Post.create(postOjb);
     
@@ -19,22 +22,41 @@ module.exports.upload = async (req, res) => {
     return res.redirect('/');
 }
 
+const getMenu = (owner, user) =>{
+    if ( owner == user){
+        return {
+            update  : true,
+            delete  : true,
+            unfollow: false
+        }
+    }
+    else
+        return  {
+            update  : false,
+            delete  : false,
+            unfollow: true
+        }
+}
+
+module.exports.getMenu = getMenu;
+
 module.exports.getPosts = async (skip, userID) => {
         var listFollow = await Follow.find({follower: userID},{followee: 1});
         var list = listFollow.map(element => {
             return element.followee;
         });
         list.push(userID);
+
         var result = await Post.find({
             owner : {$in : list}
-        }).sort({postDate: -1}).skip(skip*10).limit(10);
+        }).sort({postDate: -1}).skip(skip * 5).limit(5);
         return result;
 }
 
 
 module.exports.getOnePost = async (req, res) => {
-    var postID = req.params.postID;
-    var rs     = await Post.findOne({_id: postID});
+    var postID    = req.params.postID;
+    var rs        = await Post.findOne({_id: postID});
     var ownerInfo = await User.findById(rs.owner,{username:1, _id:1, avatar: 1});
     if (rs.likes.indexOf(req.signedCookies.userID) != -1){
         var like = true;
@@ -42,30 +64,59 @@ module.exports.getOnePost = async (req, res) => {
     else{
         var like = false;
     }
-    var temp = await Comment.find({_id : {$in : rs.comments}});
+    var temp     = await Comment.find({_id : {$in : rs.comments}});
     var comments = await Promise.all( temp.map(async comment => {
-        var ownerInfo = await User.findOne({_id: comment.owner}, {_id:1, username: 1});
+        var ownerInfo     = await User.findOne({_id: comment.owner}, {_id:1, username: 1});
         comment.ownerInfo = ownerInfo;
         return comment;
     })
     )
     var data = {
-        id:     rs._id,
-        imgUrl: rs.imgUrl,
-        caption:rs.caption,
-        like: like,
+        id       : rs._id,
+        imgUrl   : rs.imgUrl,
+        caption  : rs.caption,
+        like     : like,
         likeCount: rs.likes.length,
-        comments: comments,
+        comments : comments,
         ownerInfo: {
-            id: ownerInfo._id,
+            id      : ownerInfo._id,
             username: ownerInfo.username,
-            avatar: ownerInfo.avatar
+            avatar  : ownerInfo.avatar
         }
     }
 
     res.render('post', 
     {
-        myInfo: res.locals.userObj,
-        post: data
+        myInfo  : res.locals.userObj,
+        post    : data
     }); 
+}
+
+module.exports.updatePost = async (req, res) => {
+    var postID = req.params.postID;
+    var post   = await Post.findOne({_id: postID}, {caption: 1});
+    if (!post || post.owner != req.signedCookies.userID) return res.send({
+        success: false
+    });
+    post.caption = req.body.caption;
+    await post.save();
+    res.send({
+        success: true,
+        class  : res.locals.userObj.username,
+        caption: post.caption
+    })
+}
+
+module.exports.deletePost = async (req, res) => {
+    var postID = req.params.postID;
+    var rm     = await Post.findOne({_id: postID});
+    if (rm.owner != req.signedCookies.userID)
+        return res.send({
+            success: false
+        })
+    await deleteFile(`${__dirname}/../public/${rm.imgUrl}`);
+    await rm.remove();
+    res.send({
+        success: true
+    });
 }
