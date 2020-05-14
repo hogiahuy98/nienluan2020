@@ -56,7 +56,8 @@ $(document).on('click', '.like', function() {
         context : this,
         success : function(data){
             if(data.success){
-                $(this).html(`Bỏ thích <span class="badge badge-dark"> ${data.likeCount}<span>`);
+                $(this).html(`Bỏ thích`);
+                $(".like-count").html(`${data.likeCount} lượt thích`);
                 $(this).removeClass("like");
                 $(this).addClass('unlike');
             }
@@ -74,7 +75,8 @@ $(document).on('click', '.unlike', function(){
         context : this,
         success : function(data){
             if(data.success){
-                $(this).html(`Thích <span class="badge badge-dark"> ${data.likeCount}<span>`);
+                $(this).html(`Thích`);
+                $(".like-count").html(`${data.likeCount} lượt thích`);
                 $(this).removeClass("unlike");
                 $(this).addClass('like');
             }
@@ -113,7 +115,6 @@ $(document).on('click', '.delete-post-submit', function(){
         success: function(data){
             if(data.success){
                 $(`#post${postID}`).hide();
-                alert("Xóa thành công");
                 $("#delete-post").modal('toggle');
             }
             else{

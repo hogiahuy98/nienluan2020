@@ -15,7 +15,7 @@
     </style>
     <title>Document</title>
 </head>
-<body>
+<body style="background-color: #fafafa;">
         <%- include('./partials/navbar') %> 
         <div class="container">
         <div  class="row">
@@ -27,14 +27,11 @@
                         <form action="/post" method="POST" id='postCard' enctype="multipart/form-data">
                             <div  class="form-group"><textarea form="postCard" name="caption"  data-toggle="autosize" rows="3" placeholder="Start a post..." class="form-control form-control-flush form-control-auto c5490"></textarea></div>
 
-                        <div  class="row align-items-center">
-                            <div  class="col">
-                                <!-- Symbols --><small class="text-muted"> </small>
-                            </div>
-                            <div  class="col-auto">
+                        <div  class="row align-items-center float-right">
+                            <div  class="col-auto d-flex">
                                 <!-- Icons -->
-                              <input class="mr-0" type="file" name="img" id="img">
-                              <button class="btn btn-inline-light col-2 my-md-0" type="submit">Đăng</button>
+                              <input class="mr-0 form-control" type="file" name="img" id="img">
+                              <button class="btn btn-success col-4 my-md-0" type="submit">Đăng</button>
                             </div>
                         </div>
                         </form>
@@ -79,22 +76,26 @@
                         <!-- Header cua post (avatar, username, menu) -->
                         <!-- Content cua post (anh va cap tion) -->
                             <div class="row">
-                                <p class="mt-2 ml-3 caption"><%= post.caption %></p>
-                                <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid rounded"></div>
+                                <p class="col-12 mt-2 caption"><%= post.caption %></p>
+                                <div class="col-12"><img src="<%= post.imgUrl %>" alt=""  class="img-fluid"></div>
                             </div>
                         <!-- Content cua post (anh va cap tion) -->
                         <!-- Cac nut control     -->
                             <div class="row">
                                 <div class="border-top my-1 ml-3">
                                     <% if(!post.like){ %> 
-                                        <button id="<%= post.id %>" class="btn btn-link mr-4 like">Thích<span class="badge badge-dark ml-2"><%= post.likeCount %> </span></button>
+                                        <button id="<%= post.id %>" class="btn btn-link text-dark font-weight-bold mr-4 like">Thích</button>
                                     <% } else { %>
-                                        <button id="<%= post.id %>" class="btn btn-link mr-4 unlike">Bỏ thích<span class="badge badge-dark ml-2"><%= post.likeCount %> </button>
+                                        <button id="<%= post.id %>" class="btn btn-link text-dark font-weight-bold mr-4 unlike">Bỏ thích</button>
                                     <% } %>  
+                                    <p class="col-auto text-dark font-weight-bold like-count"><%= post.likeCount %> lượt thích</p>
                                 </div>
                             </div>
                         <!-- Cac nut control     -->
                             <div class="row">
+                                <% if (post.comments.length == 2) {%>
+                                    <a href="/post/<%= post.id %> " class="col-auto ml-4 badge badge-light" target="_blank" rel="noopener noreferrer">Xem tất cả bình luận</a> 
+                                <% }  %> 
                                 <% if (post.comments){ %>
                                     <% post.comments.forEach( comment => {%>
                                         <div class="col-10 ml-3 pt-1 comment">
@@ -130,6 +131,6 @@
             </div>
         </div>
     </div>
-    <script src="main.js"></script>
+    <script src="/main.js"></script>
 </body>
 </html>
