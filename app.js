@@ -17,7 +17,8 @@ const middlewares = require('./middlewares/authentication.middlewares');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
-app.use(express.static('public')); 
+app.use(express.static('public'));
+app.use(express.static('node_modules')); 
 app.use(cookieParser('Heisenberg'));
 app.use(middlewares.authCookie);
 

@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/moment",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify:false});
 
 var Schema = mongoose.Schema({
-    time: Date,
     seen: Boolean,
     type: String,
-    commentId: mongoose.Types.ObjectId,
-    postId: mongoose.Types.ObjectId,
-    owner: mongoose.Types.ObjectId
+    id1: mongoose.Types.ObjectId,
+    id2: mongoose.Types.ObjectId,
+    idPost: mongoose.Types.ObjectId
 });
 
 var activity = mongoose.models("post", Schema);

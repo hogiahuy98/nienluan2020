@@ -15,10 +15,11 @@
     <!-- search form -->
     <!-- dropdown -->
     <div class="col-md-4">
-      <ul class="navbar-nav float-right ">
-        <li class="nav-item"><% if(myInfo){ %> 
+      <ul class="navbar-nav float-right">
+        <li class="nav-item">
+          <% if(myInfo){ %> 
           <div class="dropdown">
-            <a href='#' class="dropdown-toggle" id='dropdown-avatar' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="dropdown-toggle" id='dropdown-avatar' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="<%= myInfo.avatar %>" class="rounded-circle" id='avatar' height="40rem" width="40rem">
             </a>
             <div class="dropdown-menu"  style="right: 0; left: auto;" aria-labelledby="dropdown-avatar">
@@ -27,9 +28,39 @@
               <a class="dropdown-item" href="/signout">Đăng xuất</a>
             </div>
           </div>
-        <% } %> 
+          <% } %> 
         </li>
       </ul>
+      <div class="navbar-nav float-right">
+        <a href="#" class="h3 mr-5" id="dropdown-activity-button" style="line-height: initial;"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <i class="far fa-heart"></i>
+        </a>
+        <div class="dropdown-menu dropdown-activity" role="menu"  style="right: 0; left: auto; width: 400px; height: auto; max-height: 200px; overflow-x: hidden;" aria-labelledby="dropdown-activity">
+          <div class="dropdown-item activity-item border-bottom">  
+            <div class="row"> 
+              <div class="col-8">
+                <a class=""><strong>Faker</strong> vừa thích ảnh của bạn</a>
+                <p>"Đi cắm trại. Hehe"</p>
+              </div>
+              <div class="col-4 float-right">
+                <img src="/uploads/158908213569094883648_2575943302511869_3696851361539817472_o.jpg" height="40rem" width="40rem">
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-item activity-item border-bottom">  
+            <div class="row"> 
+              <div class="col-8">
+                <a class=""><strong>Faker</strong> vừa bình luận ảnh của bạn</a>
+                <p>"Xin hãy cứu SKT"</p>
+              </div>
+              <div class="col-4 float-right">
+                <img src="/uploads/158908213569094883648_2575943302511869_3696851361539817472_o.jpg" height="40rem" width="40rem">
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
     </div>
     <!-- dropdown -->
   </nav>
@@ -59,30 +90,30 @@
 
 
   
-</div><div class="modal fade" id="change-password" tabindex="-1" role="dialog" aria-labelledby="change-password" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form method="post" id = "change-password-form">
-      <div class="modal-header">
-        <h5 class="modal-title" id="">Đổi mật khẩu</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+</div>
+  <div class="modal fade" id="change-password" tabindex="-1" role="dialog" aria-labelledby="change-password" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="post" id = "change-password-form">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Đổi mật khẩu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body col-8 mx-auto">
+            <input class="form-control my-1 my-4" type="password" name="oldpass" id="old-pass" placeholder="Mật khẩu cũ">
+            <input class="form-control my-1 my-4" type="password" name="newpass" id="new-pass" placeholder="Mật khẩu mới">
+            <input class="form-control my-1 my-4" type="password" name="renewpass" id="re-new-pass" placeholder="Nhập lại mật khẩu mới">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="submit"  class="btn btn-primary">Đổi mật khẩu</button>
+        </div>
+      </form>
       </div>
-      <div class="modal-body col-8 mx-auto">
-          <input class="form-control my-1 my-4" type="password" name="oldpass" id="old-pass" placeholder="Mật khẩu cũ">
-          <input class="form-control my-1 my-4" type="password" name="newpass" id="new-pass" placeholder="Mật khẩu mới">
-          <input class="form-control my-1 my-4" type="password" name="renewpass" id="re-new-pass" placeholder="Nhập lại mật khẩu mới">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button type="submit"  class="btn btn-primary">Đổi mật khẩu</button>
-      </div>
-    </form>
     </div>
   </div>
-</div>
-
 </div>
 
 

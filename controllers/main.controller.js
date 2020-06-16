@@ -15,10 +15,11 @@ const getContentOfPost = async (post, userID) => {
     var ownerInfo = await User.findOne({_id: post.owner});
     var comments  = []
     if(post.comments.length > 0){
+        var n;
         if(post.comments.length == 1)
-            var n = 1;
-        else var n = 2;
-        for (var i = 0; i < n; i++){
+             n = 1;
+        else n = 2;
+        for (var i = post.comments.length - n; i < post.comments.length; i++){
             var comment       = await Comment.findOne({_id: post.comments[i]});
             var ownercmtInfo  = await User.findOne({_id: comment.owner},{_id: 1, username: 1});
             comment.ownerInfo = ownercmtInfo;

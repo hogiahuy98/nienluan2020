@@ -16,6 +16,7 @@ $("#change-password-form").submit( function(e){
         success: function(data){
             if (data.success){
                 alert("Đổi mật khẩu thành công");
+                $("#change-password").modal("toggle");
             }
             else alert(data.err);
         }
@@ -50,14 +51,15 @@ $("#update-form").submit( function(e){
 })
 
 $(document).on('click', '.like', function() {
+    var postID = $(this).attr('id');
     $.ajax({
-        url     : "/like/"+ $(this).attr('id'),
+        url     : "/like/"+ postID,
         method  : "post",
         context : this,
         success : function(data){
             if(data.success){
                 $(this).html(`Bỏ thích`);
-                $(".like-count").html(`${data.likeCount} lượt thích`);
+                $(".like-count"+postID).html(`${data.likeCount} lượt thích`);
                 $(this).removeClass("like");
                 $(this).addClass('unlike');
             }
@@ -69,14 +71,15 @@ $(document).on('click', '.like', function() {
 });
 
 $(document).on('click', '.unlike', function(){
+    var postID = $(this).attr('id');
     $.ajax({
-        url     : `/unlike/${$(this).attr('id')}`,
+        url     : `/unlike/${postID}`,
         method  : "post",
         context : this,
         success : function(data){
             if(data.success){
                 $(this).html(`Thích`);
-                $(".like-count").html(`${data.likeCount} lượt thích`);
+                $(".like-count"+postID).html(`${data.likeCount} lượt thích`);
                 $(this).removeClass("unlike");
                 $(this).addClass('like');
             }
@@ -124,3 +127,25 @@ $(document).on('click', '.delete-post-submit', function(){
         }
     })
 })
+
+$(".comment-form").submit(function(event){
+    event.preventDefault();
+    var data = $(this).serialize();
+    $.ajax({
+        url: `/comment/${$(this).attr('data-id')}`,
+        method: "post",
+        data: data,
+        context: this,
+        success: function(data){
+            $(`.comment-area-${$(this).attr('data-id')}`).append(`
+                <div class="col-10 ml-3 pt-1 comment">
+                    <a href="/user/${data.user._id}" class="text-dark bold">
+                        <strong>${data.user.username}</strong>
+                    </a>
+                    <span>${data.comment.content}</span>
+                </div>
+            `);
+            $(this).find("input").val("");
+        }
+    })
+});

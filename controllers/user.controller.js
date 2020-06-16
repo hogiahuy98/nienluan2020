@@ -50,8 +50,7 @@ module.exports.validateLogin = async (req, res) => {
                 res.cookie('userID', user._id, {signed: true});
                 return res.redirect('/');
             }
-            else
-                return res.render('login', {err: true});
+            else return res.render('login', {err: true});
         }
         return res.render('login', {err: true});
 }
@@ -63,12 +62,12 @@ module.exports.search = async (req, res) => {
                         {_id:{$ne: req.signedCookies.userID}}
                     ]},
                     {_id:1,username:1, name:1, avatar:1})
-                    .limit(10).skip(10* (req.params.page - 1));
-            if (list.length == 0)
-                return res.send("Không tìm thấy người dùng nào");
+                    .limit(10).skip(10* (req.params.page - 1)
+            );
+            if (list.length == 0) return res.send("Không tìm thấy người dùng nào");
 
-            var localUser = req.signedCookies.userID;
-            var data = [];
+            var localUser = req.signedCookies.userID, data = [];
+            
             for (var i = 0; i < list.length; i++){
                 var followed = await Follow.findOne({follower: localUser, followee: list[i]._id});
                 if (followed != null)
@@ -122,10 +121,13 @@ module.exports.unfollow = async (req, res) =>{
     await Follow.findOne({follower: userID, followee: followee}).remove();
     res.send("Thành công");
 }
+
 module.exports.unfollowByUsername = async (req, res) =>{
     var userID = req.signedCookies.userID;
     var find = await User.findOne({username: req.params.username}, {_id:1});
-    await Follow.findOne({follower: userID, followee: find._id}).remove();
+    //neu tim thay thi xoa document tuong ung
+    if(find != null)
+        await Follow.findOne({follower: userID, followee: find._id}).remove();
     res.send({success: true});
 }
 
@@ -142,10 +144,9 @@ module.exports.getUserFD = async (userID) => {
 
 module.exports.changePassword = async (req, res) => {
     var realOldPass = await User.findOne({_id : req.signedCookies.userID}, {password:1});
-    var compare = await bcrypt.compare(req.body.oldpass, realOldPass.password);
-    var err;
+    var compare     = await bcrypt.compare(req.body.oldpass, realOldPass.password);
     if (!compare)
-        err = "Mật khẩu cũ chưa đúng";
+        var err = "Mật khẩu cũ chưa đúng";
     if (!err){
         realOldPass.password = await bcrypt.hash(req.body.newpass, 5);
         await realOldPass.save();
