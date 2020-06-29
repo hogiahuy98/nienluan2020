@@ -10,6 +10,6 @@ var Schema = mongoose.Schema({
     imgUrl: String
 });
 
-var post = mongoose.model("post", Schema);
+var post = mongoose.model("posts", Schema);
 
 module.exports = post;

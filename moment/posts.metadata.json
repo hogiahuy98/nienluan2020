@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"moment.posts"},{"v":{"$numberInt":"2"},"key":{"postDate":{"$numberDouble":"-1.0"}},"name":"postDate_-1","ns":"moment.posts"},{"v":{"$numberInt":"2"},"key":{"postDate":{"$numberDouble":"1.0"}},"name":"postDate_1","ns":"moment.posts"}],"uuid":"c20108f2c1a74103aeead6bf74cbcd10"}

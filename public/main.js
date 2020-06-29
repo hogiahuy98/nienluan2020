@@ -1,3 +1,26 @@
+const socket = io("localhost:3000");
+
+socket.on("like", data =>{
+    var temp = Mustache.render(likeNoti, data.noti);
+    $(".dropdown-activity").prepend(temp);
+    $("#noti-count").text(parseInt($("#noti-count").text()) + 1);
+    if($("#none-noti").attr('data-display') == "true"){
+        $("#none-noti").hide();
+        $("#none-noti").attr('data-display') = "false";
+    }
+})
+
+socket.on("comment", data =>{
+    var temp = Mustache.render(commentNoti, data);
+    $(".dropdown-activity").prepend(temp);
+    $("#noti-count").text(parseInt($("#noti-count").text()) + 1);
+    if($("#none-noti").attr('data-display') == "true"){
+        $("#none-noti").hide();
+        $("#none-noti").attr('data-display') = "false";
+    }
+})
+
+
 $('#dropdown-avatar').click(function(){
     
 })
@@ -52,6 +75,7 @@ $("#update-form").submit( function(e){
 
 $(document).on('click', '.like', function() {
     var postID = $(this).attr('id');
+    socket.emit("like", {postID: postID});
     $.ajax({
         url     : "/like/"+ postID,
         method  : "post",
@@ -149,3 +173,41 @@ $(".comment-form").submit(function(event){
         }
     })
 });
+
+socket.on("test", data => {
+    console.log(data.message);
+})
+
+$(document).on('click','.follow-button',function () {
+    $.ajax({
+        url: '/follow/'+ $(this).attr('id'),
+        method : "POST",
+        context: this,
+        success: function(data){
+            if(data == "Thất bại"){
+                return alert(data);
+            }
+            $(this).removeClass("btn-outline-primary follow-button");
+            $(this).addClass("btn-outline-danger unfollow-button");
+            $(this).html("Unfollow");
+        }
+    });
+
+});
+
+$(document).on('click','.unfollow-button',function () {
+    $.ajax({
+        url: '/unfollow/'+ $(this).attr('id'),
+        method : "POST",
+        context: this,
+        success: function(data){
+            $(this).removeClass("btn-outline-danger unfollow-button");
+            $(this).addClass("btn-outline-primary follow-button");
+            $(this).html("Follow");
+        }
+    });
+
+});
+
+
+socket.on("test123", data => {console.log(data)})

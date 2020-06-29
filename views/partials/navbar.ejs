@@ -34,31 +34,44 @@
       <div class="navbar-nav float-right">
         <a href="#" class="h3 mr-5" id="dropdown-activity-button" style="line-height: initial;"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <i class="far fa-heart"></i>
+          <span id="noti-count" class="badge badge-danger" style="font-size: 40%;"><%= myInfo.noti.length %> </span>
         </a>
-        <div class="dropdown-menu dropdown-activity" role="menu"  style="right: 0; left: auto; width: 400px; height: auto; max-height: 200px; overflow-x: hidden;" aria-labelledby="dropdown-activity">
-          <div class="dropdown-item activity-item border-bottom">  
+        <div class="dropdown-menu dropdown-activity" role="menu"  style="right: 0; left: auto; width: 400px; height: auto; max-height: 600px; overflow-x: hidden;" aria-labelledby="dropdown-activity"> 
+          <% if(myInfo.noti.length > 0){myInfo.noti.forEach(noti => { %>
+            <%  if(noti.type == 2){%>
+              <a class="text-dark" href="/user/noti/<%= noti._id %>/<%= noti.user._id %>">
+            <%} else {%>
+               <a class="text-dark" href="/post/noti/<%= noti._id %>/<%= noti.post._id %>">
+            <% } %> 
+          <div class="dropdown-item activity-item border-bottom"> 
             <div class="row"> 
               <div class="col-8">
-                <a class=""><strong>Faker</strong> vừa thích ảnh của bạn</a>
-                <p>"Đi cắm trại. Hehe"</p>
+
+                <% if(noti.type == 0) {%> 
+                  <p class=""><strong><%= noti.user.username %> </strong> vừa thích ảnh của bạn</p>
+                  <p><%= noti.post.caption %> </p>
+               
+                <% } else if(noti.type == 1) { %> 
+                  <p class=""><strong><%= noti.user.username %> </strong> vừa bình luận ảnh của bạn</p>
+                  <p><%= noti.post.caption %> </p>
+              
+                <% } else { %> 
+                  <p class=""><strong><%= noti.user.username %> </strong> đã theo dõi bạn</p>
+                <% } %> 
               </div>
               <div class="col-4 float-right">
-                <img src="/uploads/158908213569094883648_2575943302511869_3696851361539817472_o.jpg" height="40rem" width="40rem">
+                <%  if(noti.type == 2){ %>
+                <img class="float-right" src="<%= noti.user.avatar %> " height="40rem" width="40rem">
+                <% } else {%>
+                <img class="float-right" src="<%= noti.post.imgUrl %> " height="40rem" width="40rem">
+                <% } %> 
               </div>
             </div>
+          </a>
           </div>
-          <div class="dropdown-item activity-item border-bottom">  
-            <div class="row"> 
-              <div class="col-8">
-                <a class=""><strong>Faker</strong> vừa bình luận ảnh của bạn</a>
-                <p>"Xin hãy cứu SKT"</p>
-              </div>
-              <div class="col-4 float-right">
-                <img src="/uploads/158908213569094883648_2575943302511869_3696851361539817472_o.jpg" height="40rem" width="40rem">
-              </div>
-            </div>
-          </div>
-          
+        <% })} else { %> 
+            <p class="mx-5" id="none-noti" data-display="true">Không có thông báo nào</p>
+        <%}  %> 
         </div>
       </div>
     </div>

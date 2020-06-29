@@ -1,6 +1,7 @@
 const Post = require('../models/post.model');
 const Follow = require('../models/follow.model');
 const Comment = require('../models/comment.model');
+const activity = require("../models/activity.model");
 const path = require('path');
 const User = require('../models/user.model');
 const fs = require('fs');
@@ -53,6 +54,11 @@ module.exports.getPosts = async (skip, userID) => {
         return result;
 }
 
+module.exports.getPostsFromUser = async (skip, userID) => {
+    var result = await Post.find({owner: userID}).sort({postDate: -1}).skip(skip * 5).limit(5)
+    return result;
+}
+
 
 module.exports.getOnePost = async (req, res) => {
     var postID    = req.params.postID;
@@ -78,6 +84,7 @@ module.exports.getOnePost = async (req, res) => {
         like     : like,
         likeCount: rs.likes.length,
         comments : comments,
+        menu: getMenu(ownerInfo._id, req.signedCookies.userID),
         ownerInfo: {
             id      : ownerInfo._id,
             username: ownerInfo.username,
@@ -119,4 +126,13 @@ module.exports.deletePost = async (req, res) => {
     res.send({
         success: true
     });
+}
+
+module.exports.getPostFromNoti = async (req, res) => {
+    var notiID = req.params.notiID,
+        postID = req.params.postID;
+    var temp = await activity.findOne({_id: notiID});
+    temp.seen = true;
+    await temp.save();
+    return res.redirect('/post/'+postID);
 }

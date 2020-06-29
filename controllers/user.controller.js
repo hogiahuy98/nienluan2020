@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const User   = require('../models/user.model');
 const Follow = require('../models/follow.model');
+const activity = require("../models/activity.model");
 const path = require('path');
 
 const default_avatar = '/img/default-avatar.png';
@@ -109,7 +110,16 @@ module.exports.follow = async (req, res) => {
         follower: userID,
         followee: followee
     }
-    var find = await Follow.findOne({follower: userID, followee: followee})
+    var noti = new activity({
+        seen: false,
+        type: 2,
+        user: userID,
+        notiTarget: followee
+    });
+    await noti.save();
+    noti = await (await activity.findById(noti._id)).populate("user");
+    req.io.to(noti.notiTarget).emit("follow", {noti: noti});
+    var find = await Follow.findOne({follower: userID, followee: followee});
     if (find) return res.send("Thất bại");
     await Follow.create(data);
     res.send("Thành công");

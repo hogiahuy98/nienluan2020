@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"moment.comments"}],"uuid":"f400f05333d3416194155c8354a381a1"}

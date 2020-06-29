@@ -18,10 +18,10 @@
                             <img src="<%= user.avatar %> " width='40rem' height="40rem">
                         </td>
                         <td>
-                            <p><%= user.username %> </p>
+                            <a href="/user/<%= user._id %>"> <%= user.username %> </a>
                         </td>
                         <% if (user.followed == true){ %> 
-                            <td><button class="btn btn-outline-danger unfollow-button"id="<%= user._id %>"> Unfollow</button></td>
+                            <td><button class="btn btn-outline-danger unfollow-button" id="<%= user._id %>"> Unfollow</button></td>
                         <% } else {%> 
                         <td><button class="btn btn-outline-primary follow-button" id="<%= user._id %>">Follow</button></td>
                         <% } %> 
@@ -42,38 +42,6 @@
         </div>
     </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-        $(document).on('click','.follow-button',function () {
-            $.ajax({
-                url: '/follow/'+ $(this).attr('id'),
-                method : "POST",
-                context: this,
-                success: function(data){
-                    if(data == "Thất bại"){
-                        return alert(data);
-                    }
-                    $(this).removeClass("btn-outline-primary follow-button");
-                    $(this).addClass("btn-outline-danger unfollow-button");
-                    $(this).html("Unfollow");
-                }
-            });
+<script src="/main.js"></script>
 
-        });
-
-        $(document).on('click','.unfollow-button',function () {
-            $.ajax({
-                url: '/unfollow/'+ $(this).attr('id'),
-                method : "POST",
-                context: this,
-                success: function(data){
-                    $(this).removeClass("btn-outline-danger unfollow-button");
-                    $(this).addClass("btn-outline-primary follow-button");
-                    $(this).html("Follow");
-                }
-            });
-
-        });
-
-</script>
 </html>

@@ -15,6 +15,7 @@ const upload = multer({storage: storage});
 
 router.post('/post',upload.single('img'), controller.upload);
 router.get('/post/:postID', controller.getOnePost);
+router.get('/post/noti/:notiID/:postID', controller.getPostFromNoti);
 
 router.post('/updatePost/:postID', controller.updatePost);
 router.post('/deletePost/:postID', controller.deletePost);

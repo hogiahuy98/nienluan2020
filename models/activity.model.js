@@ -1,14 +1,24 @@
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/moment",{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify:false});
 
-var Schema = mongoose.Schema({
+var schema = mongoose.Schema({
     seen: Boolean,
-    type: String,
-    id1: mongoose.Types.ObjectId,
-    id2: mongoose.Types.ObjectId,
-    idPost: mongoose.Types.ObjectId
+    type: Number,
+    date: Date,
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref:  "users"
+    },
+    notiTarget:{
+        type: mongoose.Types.ObjectId,
+        ref:  "users"
+    },
+    post: {
+        type: mongoose.Types.ObjectId,
+        ref:  "posts"
+    }
 });
 
-var activity = mongoose.models("post", Schema);
+var activity = mongoose.model("activities", schema);
 
 module.exports = activity;

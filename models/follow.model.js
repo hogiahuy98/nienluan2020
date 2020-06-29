@@ -6,6 +6,6 @@ var schema = mongoose.Schema({
     follower: mongoose.Types.ObjectId
 })
 
-var follow = mongoose.model('follow', schema);
+var follow = mongoose.model('follows', schema);
 
 module.exports = follow;

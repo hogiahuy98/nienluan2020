@@ -9,6 +9,6 @@ var userSchema = mongoose.Schema({
     avatar:   String,
 });
 
-var user = mongoose.model("User", userSchema);
+var user = mongoose.model("users", userSchema);
 
 module.exports = user;

@@ -23,6 +23,8 @@ router.get('/search/:page', userController.search);
 
 router.get('/', postMiddleware.isNextalbe,mainController.index);
 router.get('/page/:page', postMiddleware.isNextalbe, mainController.indexPage);
+router.get('/user/:userID', mainController.profile);
+router.get('/user/noti/:notiID/:userID', mainController.profileNoti);
 
 router.post('/follow/:id',userController.follow);
 router.post('/unfollow/:id',userController.unfollow);
@@ -32,5 +34,6 @@ router.post('/like/:postID', mainController.like);
 router.post('/unlike/:postID', mainController.unlike);
 
 router.post('/changepassword/', userController.changePassword);
+
 
 module.exports = router;
