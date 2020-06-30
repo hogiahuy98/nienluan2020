@@ -178,7 +178,7 @@ module.exports.like = async (req, res) => {
         await noti.save();
         noti = await activity.findById(noti._id).populate("post").populate("user");
         
-        req.io.to(`${post.owner}`).emit("like",
+        req.io.to(post.owner).emit("like",
             {noti: noti}
         );
     }
